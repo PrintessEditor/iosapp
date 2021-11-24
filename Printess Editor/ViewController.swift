@@ -23,6 +23,7 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
         webConfiguration.userContentController = contentController
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView.uiDelegate = self
+        //self.view.addSubview(webView)
         view = webView
     }
     
@@ -44,8 +45,18 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     }
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        print(message.body)
-        print(message.name)
+        //print(message.body)
+        //print(message.name)
+        
+        if (message.name == "backButtonCallback") {
+            let saveToken = message.body
+            print("Save Token: \(saveToken)")
+        } else if (message.name == "addToBasketCallback") {
+            let dict = message.body as? Dictionary<String, String>
+            let saveToken = (dict?["token"])!
+            let imageUrl = (dict?["imageUrl"])!
+            print("Save Token: \(saveToken), thumbnail url: \(imageUrl)")
+        }
     }
     
 }
