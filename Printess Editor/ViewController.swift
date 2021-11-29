@@ -37,7 +37,6 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     }
     
     func webView(_ webView: WKWebView,didFinish navigation: WKNavigation!) {
-        print("loaded")
         self.webView.evaluateJavaScript("startPrintess('backButtonCallback', 'addToBasketCallback')" , completionHandler: { (any, error) in
             if let evaluationError = error {
                 print("Error : \(evaluationError)")
@@ -46,9 +45,6 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     }
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        //print(message.body)
-        //print(message.name)
-        
         if (message.name == "backButtonCallback") {
             let saveToken = message.body
             print("Save Token: \(saveToken)")
