@@ -39,8 +39,9 @@ class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate, WKSc
     func webView(_ webView: WKWebView,didFinish navigation: WKNavigation!) {
         print("loaded")
         self.webView.evaluateJavaScript("startPrintess('backButtonCallback', 'addToBasketCallback')" , completionHandler: { (any, error) in
-            
-            print("Error : \(error)")
+            if let evaluationError = error {
+                print("Error : \(evaluationError)")
+            }
         })
     }
     
