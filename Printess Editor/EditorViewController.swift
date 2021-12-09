@@ -50,6 +50,24 @@ class EditorViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
     })
   }
 
+  func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String,
+               initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+
+    let alertController = UIAlertController(title: message, message: nil,
+                                          preferredStyle: UIAlertController.Style.alert);
+
+    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel) {
+      _ in completionHandler()}
+    );
+    alertController.addAction(UIAlertAction(title: "Back to list", style: UIAlertAction.Style.default) {
+        _ in completionHandler()
+        self.dismiss(animated: true, completion: nil)
+      }
+    );
+
+    self.present(alertController, animated: true, completion: {});
+  }
+
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if message.name == "backButtonCallback" {
       let saveToken = message.body
