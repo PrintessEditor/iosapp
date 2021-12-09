@@ -13,6 +13,8 @@
 		04245312263C4FA6004E9E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04245310263C4FA6004E9E6A /* Main.storyboard */; };
 		04245314263C4FA8004E9E6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04245313263C4FA8004E9E6A /* Assets.xcassets */; };
 		04245317263C4FA8004E9E6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04245315263C4FA8004E9E6A /* LaunchScreen.storyboard */; };
+		E1EFC99E275FA43000BBC12D /* TemplateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EFC99D275FA43000BBC12D /* TemplateListViewController.swift */; };
+		E1FAA8FB2760DA780068448D /* TemplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAA8FA2760DA780068448D /* TemplateTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		04245313263C4FA8004E9E6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04245316263C4FA8004E9E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04245318263C4FA8004E9E6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1EFC99D275FA43000BBC12D /* TemplateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateListViewController.swift; sourceTree = "<group>"; };
+		E1FAA8FA2760DA780068448D /* TemplateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				04245313263C4FA8004E9E6A /* Assets.xcassets */,
 				04245315263C4FA8004E9E6A /* LaunchScreen.storyboard */,
 				04245318263C4FA8004E9E6A /* Info.plist */,
+				E1EFC99D275FA43000BBC12D /* TemplateListViewController.swift */,
+				E1FAA8FA2760DA780068448D /* TemplateTableViewCell.swift */,
 			);
 			path = "Printess Editor";
 			sourceTree = "<group>";
@@ -95,7 +101,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1150;
-				ORGANIZATIONNAME = "Bastian Kröger";
+				ORGANIZATIONNAME = "Printess GmbH & Co. KG";
 				TargetAttributes = {
 					04245306263C4FA6004E9E6A = {
 						CreatedOnToolsVersion = 11.5;
@@ -138,9 +144,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1EFC99E275FA43000BBC12D /* TemplateListViewController.swift in Sources */,
 				0424530F263C4FA6004E9E6A /* ViewController.swift in Sources */,
 				0424530B263C4FA6004E9E6A /* AppDelegate.swift in Sources */,
 				0424530D263C4FA6004E9E6A /* SceneDelegate.swift in Sources */,
+				E1FAA8FB2760DA780068448D /* TemplateTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +224,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -270,7 +278,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -286,6 +294,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Printess Editor/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,6 +313,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Printess Editor/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
