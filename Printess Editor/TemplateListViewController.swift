@@ -68,6 +68,19 @@ class TemplateListViewController: UIViewController {
   @IBOutlet
   var loadingView: UIView?
 
+  let bearerToken = """
+  eyJhbGciOiJSUzI1NiIsImtpZCI6InByaW50ZXNzLXNhYXMtYWxwaGEiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJneTh6NDRFbUxpWjB2clV\
+  LclhsV3RpWlkxNUQyIiwianRpIjoibnl4NGJFZlZ5SVVvM1NkR2dYVnEtempzS3hlb0FYZUYiLCJyb2xlIjoic2hvcCIsIm5iZiI6MTYxO\
+  Dg2ODUxMSwiZXhwIjoxOTM0MjI4NTExLCJpYXQiOjE2MTg4Njg1MTEsImlzcyI6IlByaW50ZXNzIEdtYkggJiBDby5LRyIsImF1ZCI6InB\
+  yaW50ZXNzLXNhYXMifQ.CuI6zdCzBm2y3t2GBD4pYdyztFzSeSEfdGIDBeiZIYvzQckB9oEB1Z4hDkBCGZGBtTMRyuHCbkwZgO6uxD-Zya\
+  hifiqrIqfqSqtFEGwgZUF87TvV_KlrYWBzDNTaUIQjr-yUoxLkdnEMzh-3D5qV8UKWIDfqwnYd0KhJiB2K9CSg82_etnz5Lk-altMDAT8b\
+  1AnzxcjRAJ9_b6-CAJFXG6AAnfdl7c_PS3sD-RPOkJ75Ta2glfikIiGZzfh09bn5Ptk7rucRdxUsLCLR6m5nUFpZbV77d2eqRw8pT4Kl-5\
+  by5gvMr1wUBGbEx751CNXtcCO3qk4uNnptfZ3yCpK0Z2FOo2CYLZBzmDiYCrdFV5U-_SZuVOEl8vk0uR3tj_PQci_R7MlQOjpB4NjlKckQ\
+  2zGvBSKNeupuiC71UZ2AT5BFlbqMsuYu0necIztyKiWsBmbniVlLe-v7_paP1N4nS2haD2n4s4N_CenJqijtPggWsITfoLm2twCOe7yNB5\
+  IH7bcEFv1-MbANuaFmJVLOcTfc89Zi-mkidaHV-n_9qXypzyB-ih_27YBNluRGwcHgTEkbJecSssMfvHSt1MUuqX-8gbl7bhFGryqHA2gM\
+  oSZNDW0LkSYig2K3poOUumD67vtYdNSPLhOmDK4ck9wLAKLOvk6dtywg2qfV-58_VbI
+  """
+
   override func viewDidLoad() {
 
     super.viewDidLoad()
@@ -77,19 +90,6 @@ class TemplateListViewController: UIViewController {
 
   func loadTemplatesList() {
     guard let url = URL.init(string: "https://api.printess.com/templates/global/load") else { return }
-
-    let bearerToken = """
-    eyJhbGciOiJSUzI1NiIsImtpZCI6InByaW50ZXNzLXNhYXMtYWxwaGEiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJSV0g5NzdoYjFqUzdi\
-    R3M4aXNPdHNvQnZySnUyIiwianRpIjoiMzJwTm9nTzUwQkxBRXh4OXVYRzlsRzhjcXJ3ajJQT0ciLCJyb2xlIjoic2hvcCIsIm5iZiI\
-    6MTYxODk4NjE4MCwiZXhwIjoxOTM0MzQ2MTgwLCJpYXQiOjE2MTg5ODYxODAsImlzcyI6IlByaW50ZXNzIEdtYkggJiBDby5LRyIsIm\
-    F1ZCI6InByaW50ZXNzLXNhYXMifQ.XjVlVPzLwIYFwNNrxfWhIgCprjUHAJXsD7nz_qI9WSWhIu-DY9fwSKVQNB_QKiuRNkIzCxzgfi\
-    ZSe3d3k8Rd88_ixPjw7e3N0O1gyciLzwQQ0nWoJiwXditT1CZp9LhwxR7SGUe6hJK_gLBh_boeeN0jVlwV45EFIHSU7AzeeKC7_1WJA\
-    cb0-qpMU6TWAsamj1MvzDTAbNePMPJ6sqULneIUpjME42V3cfCu_x0FD8QMZIkVWpnjZqatVPstmfzsoaTpFCYqPcnFLEEmbfL0KFdi\
-    r0ieodC69Tl4T4183cqzAa8qrF6kYeRK31OjBUh8rLdgDg4mrw7Yyl1_ndRqe366Qrfym_xM0C9Lj2tKB7bduIftlfkpdRk30M2TqmD\
-    HaM1Dq8He8X2PHvd5uy9rGj-1rWugWbEhaXiyyoQJWzv1apOXVNz2yecc4QHYQyNnEVuAadLWkX5YaNZhBU7CSpWffSwzPeEfLEHh57\
-    j74J11J_BT89KzKtjo90uhPk4_MAE0qj6QbYUL_16vmajiAQZJicPifTI4ByoMdEdJ7pvHHvfUdBYQtHHfjZd7d60k7HaZFbRP5RWs7\
-    H3ZfQF5sazrrHesEWngi_WjgrXqNRdfVxhbs3tcSLfAfm_loJJHxKILGL5JiV9WJCsksKkMatLoCmvCdHHS3cn2NYIx3UQ
-    """
 
     var request = URLRequest.init(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 20)
     request.httpMethod = "POST"
