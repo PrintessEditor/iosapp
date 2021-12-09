@@ -211,3 +211,21 @@ extension TemplateListViewController: UITableViewDelegate {
     print("selected template \(template.id) : \(template.name)")
   }
 }
+
+// MARK: - prepare Segues
+extension TemplateListViewController {
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier {
+    case "Editor":
+      guard let editor = segue.destination as? EditorViewController else { return }
+      guard let index = tableView?.indexPathForSelectedRow?.row else { return }
+      guard index < templates.count else { return }
+      let template = templates[index]
+      editor.templateName = template.name
+      editor.bearerToken = bearerToken
+    default:
+      return
+    }
+  }
+}

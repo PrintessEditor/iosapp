@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Editor View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Printess_Editor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="EditorViewController" customModule="Printess_Editor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +22,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="110"/>
+            <point key="canvasLocation" x="1920" y="110"/>
         </scene>
         <!--Template List View Controller-->
         <scene sceneID="MQS-AS-lUd">
@@ -70,6 +70,7 @@
                                         <connections>
                                             <outlet property="thumbnailView" destination="9Ra-o9-K9w" id="KpH-qe-LdA"/>
                                             <outlet property="titleLabel" destination="ehm-Es-XaS" id="8Va-mD-80X"/>
+                                            <segue destination="BYZ-38-t0r" kind="presentation" identifier="Editor" modalPresentationStyle="fullScreen" id="njJ-z2-XPd"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
