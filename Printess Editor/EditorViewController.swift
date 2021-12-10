@@ -14,27 +14,23 @@ class EditorViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
   var templateName: String = ""
   var bearerToken: String = ""
 
-  var webView: WKWebView!
-
-  override func loadView() {
-    let contentController = WKUserContentController()
-    contentController.add(self, name: "backButtonCallback")
-    contentController.add(self, name: "addToBasketCallback")
-
-    let webConfiguration = WKWebViewConfiguration()
-    webConfiguration.userContentController = contentController
-    webView = WKWebView(frame: .zero, configuration: webConfiguration)
-    webView.uiDelegate = self
-    //self.view.addSubview(webView)
-    view = webView
-  }
+  @IBOutlet
+  var webView: WKWebView? = nil
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    guard let webView = webView else { return }
+
     let myURL = URL(string: "https://printess-editor.s3.eu-central-1.amazonaws.com/v/nightly/printess-editor/buyer-test-ios.html")
     let myRequest = URLRequest(url: myURL!)
+
+    let contentController = webView.configuration.userContentController
+    contentController.add(self, name: "backButtonCallback")
+    contentController.add(self, name: "addToBasketCallback")
+
     webView.navigationDelegate = self
+    webView.uiDelegate = self
     webView.load(myRequest)
   }
 
@@ -43,7 +39,7 @@ class EditorViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
     let sanitizedTemplateName = templateName.replacingOccurrences(of: "'", with: "\\\'")
     let js = "startPrintess('\(bearerToken)', '\(sanitizedTemplateName)', 'published', 'someBasketId', 'someShopUserId', 'backButtonCallback', 'addToBasketCallback')";
 
-    self.webView.evaluateJavaScript(js, completionHandler: { (_, error) in
+    webView.evaluateJavaScript(js, completionHandler: { (_, error) in
       if let evaluationError = error {
         print("Error : \(evaluationError)")
       }
