@@ -52,6 +52,12 @@ class TemplateListViewController: UIViewController {
 
   var templates: [Template] = []
   var images: [UIImage?] = []
+  var tokenStore: TokenStore
+
+  required init?(coder: NSCoder) {
+    tokenStore = TokenStore.init()
+    super .init(coder: coder)
+  }
 
   @IBOutlet
   var tableView: UITableView?
@@ -224,6 +230,27 @@ extension TemplateListViewController {
       let template = templates[index]
       editor.templateName = template.name
       editor.bearerToken = bearerToken
+      if let continuationToken = tokenStore.continuationToken(for: template.name) {
+        editor.templateToken = continuationToken.token
+      }
+
+      editor.exitCallback = { [weak self] token  in
+        guard let strongSelf = self else { return }
+        strongSelf.tokenStore.setContinuationToken(
+          newToken: ContinuationToken.init(id: template.id, name: template.name, token: token)
+        )
+        strongSelf.dismiss(animated: true, completion: nil)
+      }
+
+      editor.addToBasketCallback = { [weak self] token, thumbnail  in
+        guard let strongSelf = self else { return }
+        strongSelf.tokenStore.setFinishedDesignToken(
+          newToken: FinishedDesignToken.init(id: template.id, name: template.name,
+                                             token: token, thumbnailURL: thumbnail,
+                                             backgroundColor: template.backgroundColor)
+        )
+        strongSelf.dismiss(animated: true, completion: nil)
+      }
     default:
       return
     }
