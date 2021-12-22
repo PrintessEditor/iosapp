@@ -15,7 +15,7 @@ class EditorViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
   var bearerToken: String = ""
 
   @IBOutlet
-  var webView: WKWebView? = nil
+  var webView: WKWebView?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -37,7 +37,7 @@ class EditorViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
   // startPrintess(token, templateName, templateVersion, basketId, shopUserId, backCallback, addToBasketCallback)
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     let sanitizedTemplateName = templateName.replacingOccurrences(of: "'", with: "\\\'")
-    let js = "startPrintess('\(bearerToken)', '\(sanitizedTemplateName)', 'published', 'someBasketId', 'someShopUserId', 'backButtonCallback', 'addToBasketCallback')";
+    let js = "startPrintess('\(bearerToken)', '\(sanitizedTemplateName)', 'published', 'someBasketId', 'someShopUserId', 'backButtonCallback', 'addToBasketCallback')"
 
     webView.evaluateJavaScript(js, completionHandler: { (_, error) in
       if let evaluationError = error {
@@ -50,18 +50,18 @@ class EditorViewController: UIViewController, WKUIDelegate, WKNavigationDelegate
                initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
 
     let alertController = UIAlertController(title: message, message: nil,
-                                          preferredStyle: UIAlertController.Style.alert);
+                                          preferredStyle: UIAlertController.Style.alert)
 
     alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel) {
       _ in completionHandler()}
-    );
+    )
     alertController.addAction(UIAlertAction(title: "Back to list", style: UIAlertAction.Style.default) {
         _ in completionHandler()
         self.dismiss(animated: true, completion: nil)
       }
-    );
+    )
 
-    self.present(alertController, animated: true, completion: {});
+    self.present(alertController, animated: true, completion: {})
   }
 
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
