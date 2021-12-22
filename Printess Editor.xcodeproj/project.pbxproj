@@ -13,6 +13,9 @@
 		04245312263C4FA6004E9E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04245310263C4FA6004E9E6A /* Main.storyboard */; };
 		04245314263C4FA8004E9E6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04245313263C4FA8004E9E6A /* Assets.xcassets */; };
 		04245317263C4FA8004E9E6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04245315263C4FA8004E9E6A /* LaunchScreen.storyboard */; };
+		E1C84B5A2772336C00B3BA82 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C84B592772336C00B3BA82 /* TokenStore.swift */; };
+		E1C84B5C2772362600B3BA82 /* ContinuationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C84B5B2772362600B3BA82 /* ContinuationToken.swift */; };
+		E1C84B5E27723DB300B3BA82 /* FinishedDesignToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C84B5D27723DB300B3BA82 /* FinishedDesignToken.swift */; };
 		E1EFC99E275FA43000BBC12D /* TemplateListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EFC99D275FA43000BBC12D /* TemplateListViewController.swift */; };
 		E1FAA8FB2760DA780068448D /* TemplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAA8FA2760DA780068448D /* TemplateTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -26,6 +29,9 @@
 		04245313263C4FA8004E9E6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04245316263C4FA8004E9E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04245318263C4FA8004E9E6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1C84B592772336C00B3BA82 /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		E1C84B5B2772362600B3BA82 /* ContinuationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinuationToken.swift; sourceTree = "<group>"; };
+		E1C84B5D27723DB300B3BA82 /* FinishedDesignToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedDesignToken.swift; sourceTree = "<group>"; };
 		E1EFC99D275FA43000BBC12D /* TemplateListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateListViewController.swift; sourceTree = "<group>"; };
 		E1FAA8FA2760DA780068448D /* TemplateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,6 +75,9 @@
 				04245318263C4FA8004E9E6A /* Info.plist */,
 				E1EFC99D275FA43000BBC12D /* TemplateListViewController.swift */,
 				E1FAA8FA2760DA780068448D /* TemplateTableViewCell.swift */,
+				E1C84B592772336C00B3BA82 /* TokenStore.swift */,
+				E1C84B5D27723DB300B3BA82 /* FinishedDesignToken.swift */,
+				E1C84B5B2772362600B3BA82 /* ContinuationToken.swift */,
 			);
 			path = "Printess Editor";
 			sourceTree = "<group>";
@@ -145,10 +154,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1EFC99E275FA43000BBC12D /* TemplateListViewController.swift in Sources */,
+				E1C84B5E27723DB300B3BA82 /* FinishedDesignToken.swift in Sources */,
 				0424530F263C4FA6004E9E6A /* EditorViewController.swift in Sources */,
+				E1C84B5C2772362600B3BA82 /* ContinuationToken.swift in Sources */,
 				0424530B263C4FA6004E9E6A /* AppDelegate.swift in Sources */,
 				0424530D263C4FA6004E9E6A /* SceneDelegate.swift in Sources */,
 				E1FAA8FB2760DA780068448D /* TemplateTableViewCell.swift in Sources */,
+				E1C84B5A2772336C00B3BA82 /* TokenStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
