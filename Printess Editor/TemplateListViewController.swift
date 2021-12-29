@@ -8,10 +8,15 @@
 
 import UIKit
 
+enum ListSections: Int {
+  case templates = 0
+  case basket = 1
+}
+
 class TemplateListViewController: UIViewController {
 
   var templates: [Template] = []
-  var images: [UIImage?] = []
+  var images: [URL: UIImage] = [:]
   var tokenStore: TokenStore
   var templateDataSource: TemplateDataSource
 
@@ -52,7 +57,6 @@ class TemplateListViewController: UIViewController {
         self.templates = loadedTemplates
         self.loadingView?.isHidden = true
         self.errorView?.isHidden = true
-        self.images = [UIImage?](repeating: nil, count: loadedTemplates.count)
         self.tableView?.reloadData()
         
       case .failure(let error):
@@ -85,27 +89,74 @@ extension TemplateListViewController: UITableViewDataSource {
 
     guard let templateCell = cell as? TemplateTableViewCell else { return cell }
 
-    templateCell.titleLabel!.text = templates[indexPath.row].name
-    if images[indexPath.row] != nil {
-      templateCell.thumbnailView?.image = images[indexPath.row]
-    } else {
-      URLSession.shared.dataTask(with: URL(string: templates[indexPath.row].thumbnailURL)!) { (data, _, _) in
-        DispatchQueue.main.async {
-          guard let data = data else { return }
-          self.images[indexPath.row] = UIImage(data: data)
-          self.tableView?.reloadRows(at: [indexPath], with: .fade)
-        }
-      }.resume()
+    switch ListSections(rawValue: indexPath.section) {
+    case ListSections.templates?:
+      let text = templates[indexPath.row].name
+      let url = templates[indexPath.row].thumbnailURL
+      return configureTemplateCell(tableCell: templateCell, title: text, url: url, indexPath: indexPath)
+    case ListSections.basket?:
+      let text = tokenStore.finishedDesignTokens[indexPath.row].name
+      let url = tokenStore.finishedDesignTokens[indexPath.row].thumbnailURL
+      return configureTemplateCell(tableCell: templateCell, title: text, url: url, indexPath: indexPath)
+    default:
+      return cell
     }
-    return cell
   }
 
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 1
+  func configureTemplateCell(tableCell: TemplateTableViewCell,
+                             title: String?,
+                             url: String?,
+                             indexPath: IndexPath) -> UITableViewCell {
+    tableCell.titleLabel!.text = title
+    if let url = URL(string: url ?? "") {
+      if images[url] != nil {
+        tableCell.thumbnailView?.image = images[url]
+      } else {
+        tableCell.thumbnailView?.image = nil
+        URLSession.shared.dataTask(with: url) { (data, _, _) in
+          DispatchQueue.main.async {
+            guard let data = data else { return }
+            self.images[url] = UIImage(data: data)
+            self.tableView?.reloadRows(at: [indexPath], with: .fade)
+          }
+        }.resume()
+      }
+    }
+
+    return tableCell
+  }
+
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 2
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return templates.count
+    switch ListSections(rawValue: section) {
+    case ListSections.templates?:
+      return templates.count
+    case ListSections.basket?:
+      return tokenStore.finishedDesignTokens.count
+    default:
+      return 0
+    }
+  }
+
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    switch ListSections(rawValue: section) {
+    case ListSections.templates?:
+      return "Templates"
+    case ListSections.basket?:
+      return "Basket"
+    default:
+      return ""
+    }
+  }
+
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    if let view = view as? UITableViewHeaderFooterView {
+      view.contentView.backgroundColor = UIColor.blue
+      view.textLabel?.textColor = UIColor.white
+    }
   }
 }
 
@@ -129,32 +180,67 @@ extension TemplateListViewController {
     switch segue.identifier {
     case "Editor":
       guard let editor = segue.destination as? EditorViewController else { return }
-      guard let index = tableView?.indexPathForSelectedRow?.row else { return }
-      guard index < templates.count else { return }
-      let template = templates[index]
-      editor.templateName = template.name
-      editor.bearerToken = templateDataSource.bearerToken
-      if let continuationToken = tokenStore.continuationToken(for: template.name) {
-        editor.templateToken = continuationToken.token
+      guard let indexPath = tableView?.indexPathForSelectedRow else { return }
+
+      let index = indexPath.row
+      switch ListSections(rawValue: indexPath.section) {
+      case ListSections.templates?:
+        guard index < templates.count else { return }
+        let template = templates[index]
+        editor.templateName = template.name
+        editor.bearerToken = templateDataSource.bearerToken
+        if let continuationToken = tokenStore.continuationToken(for: template.name) {
+          editor.templateToken = continuationToken.token
+        }
+        editor.exitCallback = { [weak self] token  in
+          guard let strongSelf = self else { return }
+          strongSelf.tokenStore.setContinuationToken(
+            newToken: ContinuationToken.init(id: template.id, name: template.name, token: token)
+          )
+          strongSelf.dismiss(animated: true, completion: nil)
+        }
+
+        editor.addToBasketCallback = { [weak self] token, thumbnail  in
+          guard let strongSelf = self else { return }
+          strongSelf.tokenStore.setFinishedDesignToken(
+            newToken: FinishedDesignToken.init(id: template.id, name: template.name,
+                                               token: token, thumbnailURL: thumbnail,
+                                               backgroundColor: template.backgroundColor)
+          )
+          if (strongSelf.tableView?.numberOfSections ?? 0 > ListSections.basket.rawValue)  {
+            strongSelf.tableView?.reloadSections(IndexSet([ListSections.basket.rawValue]), with: .none)
+          } else {
+            strongSelf.tableView?.reloadData()
+          }
+          strongSelf.dismiss(animated: true, completion: nil)
+        }
+      case ListSections.basket?:
+        guard index < templates.count else { return }
+        let token = tokenStore.finishedDesignTokens[index]
+        editor.templateName = token.token
+        editor.bearerToken = templateDataSource.bearerToken
+        editor.exitCallback = { [weak self] token  in
+          guard let strongSelf = self else { return }
+
+          strongSelf.dismiss(animated: true, completion: nil)
+        }
+
+        editor.addToBasketCallback = { [weak self] newToken, newThumbnail  in
+          guard let strongSelf = self else { return }
+          strongSelf.tokenStore.setFinishedDesignToken(
+            newToken: token.copy(token: newToken, thumbnailURL: newThumbnail)
+          )
+          if (strongSelf.tableView?.numberOfSections ?? 0 > ListSections.basket.rawValue)  {
+            strongSelf.tableView?.reloadSections(IndexSet([ListSections.basket.rawValue]), with: .none)
+          } else {
+            strongSelf.tableView?.reloadData()
+          }
+          strongSelf.dismiss(animated: true, completion: nil)
+        }
+      default:
+        return
       }
 
-      editor.exitCallback = { [weak self] token  in
-        guard let strongSelf = self else { return }
-        strongSelf.tokenStore.setContinuationToken(
-          newToken: ContinuationToken.init(id: template.id, name: template.name, token: token)
-        )
-        strongSelf.dismiss(animated: true, completion: nil)
-      }
-
-      editor.addToBasketCallback = { [weak self] token, thumbnail  in
-        guard let strongSelf = self else { return }
-        strongSelf.tokenStore.setFinishedDesignToken(
-          newToken: FinishedDesignToken.init(id: template.id, name: template.name,
-                                             token: token, thumbnailURL: thumbnail,
-                                             backgroundColor: template.backgroundColor)
-        )
-        strongSelf.dismiss(animated: true, completion: nil)
-      }
     default:
       return
     }

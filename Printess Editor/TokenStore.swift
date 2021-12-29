@@ -89,7 +89,7 @@ class TokenStore {
 
   func setFinishedDesignToken(newToken: FinishedDesignToken) {
     finishedDesignTokens = finishedDesignTokens.filter { token in
-      token.name != newToken.name
+      token.storeId != newToken.storeId
     }
     finishedDesignTokens.append(newToken)
   }
